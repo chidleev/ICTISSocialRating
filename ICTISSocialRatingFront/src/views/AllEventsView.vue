@@ -1,16 +1,33 @@
 <script setup>
-import { RouterView, RouterLink } from 'vue-router'
+import EventCard from '@/components/EventCard.vue'
+import { reactive, onMounted } from 'vue';
 import axios from 'axios';
 
 function toBecomeOrganizer() {
-    axios.get('/api/organizer/become')
-    .then(result => {})
+    axios.get('http://localhost:3000/api/organizer/become')
+    .then(result => {
+        alert(result.data)
+    })
     .catch(error => {
         error.response.data.errors.map(err => {
             alert(err.comment)
         })
     })
 }
+
+const ratingEvent = reactive([])
+axios.get('http://localhost:3000/api/eventapi/all')
+.then(result => {
+    result.data.map(ev => {
+        ratingEvent.push(ev)
+    })
+})
+.catch(function (error) {
+    error.response.data.errors.map(err => {
+        alert(err.comment)
+    })
+});
+
 </script>
 
 <template>
@@ -21,6 +38,10 @@ function toBecomeOrganizer() {
             <RouterLink to="/account">Мой аккаунт</RouterLink>
         </header>
     </div>
+
+    <div class="cards-container">
+        <EventCard v-for="revent in ratingEvent" :key="revent.uuid" v-bind:ratingEvent="revent"/>
+    </div>
 </template>
 
 <style scoped>
@@ -30,6 +51,17 @@ function toBecomeOrganizer() {
     flex-direction: column;
     justify-content: start;
     align-content: stretch;
+}
+
+.cards-container {
+    overflow-y: auto;
+    padding: max(1vw, 1vh);
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    flex-wrap: wrap;
+    gap: max(1vw, 1vh);
 }
 
 header {
