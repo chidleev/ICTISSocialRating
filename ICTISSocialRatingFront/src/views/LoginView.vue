@@ -92,23 +92,44 @@ function register() {
     justify-content: space-around;
     align-items: center;
 
-    background-color: blanchedalmond;
+    background-color: aliceblue;
+
+    @media (orientation: portrait) {
+        flex-direction: column;
+    }
 }
 
 .login, .register{
-    width: 20vw;
+    padding: max(1vw, 1vh);
+    width: 25vw;
 
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 5px;
+
+    background-color: cadetblue;
+    border-radius: max(0.5vw, 0.5vh);
+
+    @media (orientation: portrait) {
+        width: 60vw;
+    }
 }
 
 button {
     margin-top: max(1vw, 1vh);
-    width: 20vw;
+    width: 100%;
     height: 4vh;
     font-size: 2vh;
+    background-color: aliceblue;
+    border: none;
+
+    border-radius: max(0.5vw, 0.5vh);
+    cursor:pointer;
+
+    @media (orientation: portrait) {
+        width: 100%;
+    }
 }
 
 input {
@@ -117,6 +138,11 @@ input {
 
     font-size: 2vh;
     text-align: center;
+
+    background-color: white;
+    border: none;
+
+    border-radius: max(0.5vw, 0.5vh);
 }
 
 input[bad_login] {

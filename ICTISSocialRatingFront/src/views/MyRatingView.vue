@@ -31,7 +31,6 @@ onMounted(() => {
   .cards-container {
     overflow-y: auto;
     padding: max(1vw, 1vh);
-    height: 100vh;
     display: flex;
     flex-direction: row;
     justify-content: start;

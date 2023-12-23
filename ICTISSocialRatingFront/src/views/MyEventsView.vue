@@ -23,6 +23,7 @@ onMounted(() => {
 
 <template>
     <div class="cards-container">
+        <h1 v-if='!ratingEvent[0]'>Ой, кажется вы нигде не участвуете...</h1>
         <EventCard v-for="revent in ratingEvent" :key="revent.id" v-bind:ratingEvent="revent" v-bind:already_join="true"/>
     </div>
 </template>
@@ -31,7 +32,6 @@ onMounted(() => {
   .cards-container {
     overflow-y: auto;
     padding: max(1vw, 1vh);
-    height: 100vh;
     display: flex;
     flex-direction: row;
     justify-content: start;

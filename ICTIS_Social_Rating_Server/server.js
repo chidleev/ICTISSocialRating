@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser')
 
 const API = require('./API')
 const DB = require('./DataBase/models')
+const { log } = require('console')
 
 const app = express()
 const port = process.env.PORT || 3000

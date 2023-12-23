@@ -33,6 +33,7 @@ function joinEvent(e) {
 
 <template>
   <div class="card">
+    <img src="@/assets/1.jpg" alt="">
     <div class="desc">
       <h2>{{ ratingEvent.name }}</h2>
       <div class="text">{{ ratingEvent.description }}</div>
@@ -43,7 +44,6 @@ function joinEvent(e) {
         <button v-bind:joined=already_join @click=joinEvent v-bind:event_uuid=ratingEvent.uuid>{{already_join? 'Участвую' : 'Участвововать'}}</button>
       </h2>
     </div>
-    <img src="@/assets/1.jpg" alt="">
   </div>
   
 </template>
@@ -53,21 +53,24 @@ function joinEvent(e) {
   padding: max(1vw, 1vh);
   flex: 1 1 450px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
   height: max-content;
-  background-color: burlywood;
+  background-color: cadetblue;
   border-radius: max(1vw, 1vh);
 }
 
 img {
   max-height: 150px;
+  min-height: 150px;
   border-radius: max(1vw, 1vh);
 }
 
 div.desc {
   padding: max(0.5vw, 0.5vh);
   height: 100%;
+  flex: 1 1; 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -92,7 +95,7 @@ div.desc {
     text-align: center;
     text-decoration: none;
 
-    background-color: white;
+    background-color: aliceblue;
     border: none;
 
     border-radius: max(0.5vw, 0.5vh);

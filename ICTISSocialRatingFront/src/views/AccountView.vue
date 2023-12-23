@@ -18,20 +18,17 @@ function logout() {
     });
 }
 
-const isAdmin = ref(false)
-const isOrganizer = ref(false)
+const chekers = reactive({
+    isAdmin: false,
+    isOrganizer: false
+})
 
 axios.get('/api/user/check')
     .then(function (response) {
-        console.log(response);
-        isAdmin = response.data.isAdmin
-        isOrganizer = response.data.isOrganizer
+        chekers.isAdmin = (response.data.isAdmin)
+        chekers.isOrganizer = (response.data.isOrganizer)
     })
-    .catch(function (error) {
-        error.response.data.errors.map(err => {
-            alert(err.comment)
-        })
-    });
+    .catch(function (error) {});
 </script>
 
 <template>
@@ -43,8 +40,8 @@ axios.get('/api/user/check')
                 <RouterLink to="/account">Мой рейтинг</RouterLink>
                 <RouterLink to="/account/myevents">Мои события</RouterLink>
                 <RouterLink to="/event">Все события</RouterLink>
-                <RouterLink v-if="isOrganizer" to="/account/organizer">Панель организатора</RouterLink>
-                <RouterLink v-if="isAdmin" to="/account/admin">Панель администратора</RouterLink>
+                <RouterLink v-if=chekers.isOrganizer to="/account/organizer">Панель организатора</RouterLink>
+                <RouterLink v-if=chekers.isAdmin to="/account/admin">Панель администратора</RouterLink>
             </div>
             
             <button @click="logout">Выйти</button>
@@ -66,36 +63,30 @@ axios.get('/api/user/check')
     align-items: stretch;
     flex-wrap: wrap;
 }
-
 .sidebar {
     padding: max(1vw, 1vh);
     height: 100vh;
-    flex: 1 1 200px;
+    flex: 1 1 300px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
 
-    background-color: aquamarine;
+    background-color: cadetblue;
     border-radius: 0 max(1vw, 1vh) max(1vw, 1vh) 0;
 }
-
-
-
 .account-data {
-    
+    margin-bottom: max(1vw, 1vh);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     gap: max(1vw, 1vh);
 }
-
 .account-data img {
     max-width: min(40vw, 70%);
     border-radius: max(1vw, 1vh);
 }
-
 .account-data a, .sidebar button {
     width: 100%;
     height: 5vh;
@@ -108,22 +99,26 @@ axios.get('/api/user/check')
     text-align: center;
     text-decoration: none;
 
-    background-color: white;
+    background-color:aliceblue;
     border: none;
 
     border-radius: max(0.5vw, 0.5vh);
 }
-
 .sidebar button {
     margin-bottom: max(1vw, 1vh);
 }
-
 .content {
     overflow-y: hidden;
-    flex: 4 1 500px;
+    flex: 4 1 400px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: stretch;
+}
+
+@media (orientation: portrait) {
+    .sidebar {
+        height: min-content;
+    }
 }
 </style>

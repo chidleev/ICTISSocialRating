@@ -28,19 +28,30 @@ axios.get('/api/eventapi/all')
     })
 });
 
+const chekers = reactive({
+    isAdmin: false,
+    isOrganizer: false
+})
+
+axios.get('/api/user/check')
+    .then(function (response) {
+        chekers.isAdmin = (response.data.isAdmin)
+        chekers.isOrganizer = (response.data.isOrganizer)
+    })
+    .catch(function (error) {});
 </script>
 
 <template>
     <div class="container">
         <header>
-            <h1>Текущие события</h1>
-            <button @click="toBecomeOrganizer">Стать организатором</button>
+            <h2>Текущие события</h2>
+            <button v-if='!chekers.isOrganizer' @click="toBecomeOrganizer">Стать организатором</button>
             <RouterLink to="/account">Мой аккаунт</RouterLink>
         </header>
     </div>
 
     <div class="cards-container">
-        <EventCard v-for="revent in ratingEvent" :key="revent.uuid" v-bind:ratingEvent="revent"/>
+        <EventCard v-for="revent in ratingEvent" :key="revent.uuid" v-bind:ratingEvent="revent" :action_target="join"/>
     </div>
 </template>
 
@@ -56,7 +67,6 @@ axios.get('/api/eventapi/all')
 .cards-container {
     overflow-y: auto;
     padding: max(1vw, 1vh);
-    height: 100vh;
     display: flex;
     flex-direction: row;
     justify-content: start;
@@ -69,13 +79,16 @@ header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-content: center;
-    background-color: aquamarine;
+    align-items: center;
+    background-color: cadetblue;
     border-radius: max(0.5vw, 0.5vh);
 }
 
 a, header button {
-    width: 20vw;
+    padding: 0 max(1vw, 1vh);
+    margin: 0 max(0.5vw, 0.5vh);
+
+    width: fit-content;
     height: 5vh;
     
     display: flex;
@@ -86,7 +99,7 @@ a, header button {
     text-align: center;
     text-decoration: none;
 
-    background-color: white;
+    background-color: aliceblue;
     border: none;
 
     border-radius: max(0.5vw, 0.5vh);

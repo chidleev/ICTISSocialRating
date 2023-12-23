@@ -4,12 +4,7 @@ const db = require('../DataBase/models')
 const ratingAPI = express()
 
 ratingAPI.get('/all', (req, res) => {
-    console.log(req.signedCookies['token'])
-    db.Ratings.findAll({
-        attributes: {
-            exclude: ['uuid']
-        }
-    })
+    db.Ratings.findAll()
     .then(response => {
         res.json(response)
     })

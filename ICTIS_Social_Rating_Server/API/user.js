@@ -285,17 +285,23 @@ userAPI.get('/allevents', (req, res) => {
 })
 
 userAPI.get('/check', (req, res) => {
+    const errors = []
+
     db.Users.findOne({
         where: {
             uuid: req.signedCookies.token
         }
     })
     .then(user => {
-        user.getOrganizer()
+        db.Organizers.findOne({
+            where: {
+                UserUuid: req.signedCookies.token
+            }
+        })
         .then(organizer => {
             res.json({
                 isAdmin: user.isAdmin,
-                isOrganizer: Boolean(organizer)
+                isOrganizer: Boolean(organizer?.isVerify)
             })
         })
         .catch(error => {
