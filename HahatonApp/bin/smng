@@ -1,0 +1,3 @@
+#!/bin/bash
+
+python3 /home/kapitan/Progects/Django/Mediateka.site/mediasite/manage.py $*
