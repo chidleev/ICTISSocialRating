@@ -16,6 +16,16 @@ onMounted(() => {
         imgUrl: null
     })
 
+    ratingEvent.push({
+        id: 1,
+        name: 'sdgss',
+        description: 'sdgsgsgdsgsdgsgsdgsgsdgsdgsgs',
+        startDate: new Date().toLocaleDateString(),
+        location: 'Корпус А - 1 этаж',
+        ratingValue: 10,
+        imgUrl: null
+    })
+
     /*axios.get('http://localhost:3000/api/rating/all')
     .then(function (response) {
         response.data.map(rating => {
@@ -33,7 +43,7 @@ onMounted(() => {
 
 <template>
     <div class="cards-container">
-        <EventCard v-for="revent in ratingEvent" :key="revent.id" v-bind:ratingEvent="revent"/>
+        <EventCard v-for="revent in ratingEvent" :key="revent.id" v-bind:ratingEvent="revent" v-bind:already_join="true"/>
     </div>
 </template>
 

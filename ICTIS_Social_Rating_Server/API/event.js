@@ -1,15 +1,10 @@
 const express = require('express')
 const db = require('../DataBase/models')
 
-const ratingAPI = express()
+const eventAPI = express()
 
-ratingAPI.get('/all', (req, res) => {
-    console.log(req.signedCookies['token'])
-    db.Ratings.findAll({
-        attributes: {
-            exclude: ['uuid']
-        }
-    })
+eventAPI.get('/all', (req, res) => {
+    db.Events.findAll()
     .then(response => {
         res.json(response)
     })
@@ -18,4 +13,4 @@ ratingAPI.get('/all', (req, res) => {
         console.error(error);
     })
 })
-module.exports = ratingAPI
+module.exports = eventAPI

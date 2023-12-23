@@ -76,7 +76,7 @@ userAPI.post('/register', (req, res) => {
         FIO: req.body.FIO
     })
         .then(user => {
-            res.cookie('token', user.uuid, {
+            res.cookie('token', `${user.uuid}`, {
                 signed: true,
                 maxAge: 604800000
             }).sendStatus(201)
@@ -131,7 +131,7 @@ userAPI.post('/login', (req, res) => {
             }
             else {
                 if (req.body.password == user.password) {
-                    res.cookie('token', user.uuid, {
+                    res.cookie('token', `${user.uuid}`, {
                         signed: true,
                         maxAge: 604800000
                     }).json(true)
@@ -154,6 +154,10 @@ userAPI.post('/login', (req, res) => {
 
 userAPI.get('/logout', (req, res) => {
     res.clearCookie('token').sendStatus(200)
+})
+
+userAPI.post('/joinevent', (req, res) => {
+    res.send()
 })
 
 module.exports = userAPI

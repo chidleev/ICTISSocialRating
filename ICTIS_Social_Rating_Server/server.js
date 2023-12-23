@@ -7,9 +7,9 @@ const API = require('./API')
 const DB = require('./DataBase/models')
 
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000
 
-app.use(cors({origin: '*'}))
+app.use(cors({origin: 'http://localhost:5173'}))
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 app.use(cookieParser('My secret key :D'))
@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 app.use(express.static(path.join(__dirname, 'dist')))
 
 app.all('*', (req, res) => {
-    res.status(404).send('Fuck Off')
+    res.status(404).send('F Off')
 })
 
 DB.client.sync(/*{force: true}*/).then(() => {
