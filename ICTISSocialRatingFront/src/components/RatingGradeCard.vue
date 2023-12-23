@@ -1,5 +1,4 @@
 <script setup>
-import { onMounted } from 'vue';
 const props = defineProps({
   rating: {
     name: String,
@@ -12,9 +11,9 @@ const props = defineProps({
 <template>
   <div class="card">
     <div class="desc">
-      <h2>{{ rating.name }}</h2>
-      <div class="text">{{ rating.desc }}</div>
-      <h2 class="bar">Балы: {{ rating.value}}</h2>
+      <h2>Сфера деятельности: {{ rating.name }}</h2>
+      <div class="text">{{ rating.description }}</div>
+      <h2 class="bar">Баллы: {{ rating.value || 0}}</h2>
     </div>
     <img src="@/assets/1.jpg" alt="">
   </div>

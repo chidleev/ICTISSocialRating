@@ -14,17 +14,25 @@ const router = createRouter({
     },
     {
       path: '/account',
-      name: 'account',
       component: () => import('../views/AccountView.vue'),
+      meta: {
+        requredLogin: true
+      },
       children: [
         {
           path: '',
           name: 'myrating',
+          meta: {
+            requredLogin: true
+          },
           component: () => import('../views/MyRatingView.vue'),
         },
         {
           path: 'myevents',
           name: 'myevents',
+          meta: {
+            requredLogin: true
+          },
           component: () => import('../views/MyEventsView.vue'),
         }
       ]
@@ -47,6 +55,26 @@ const router = createRouter({
       ]
     }
   ]
+})
+
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+router.beforeEach((to, from, next) => {
+  if(to.meta.requredLogin && !getCookie('token')){
+      next({
+          name: "login"
+      })
+  }
+  else if ((to.name == 'login') && getCookie('token')) {
+      next({
+          name: "myrating"
+      })
+  }
+  else next()
 })
 
 export default router

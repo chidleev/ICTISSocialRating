@@ -1,9 +1,21 @@
 <script setup>
+import { onMounted, reactive } from 'vue';
 import { RouterView, RouterLink } from 'vue-router'
 import router from '@/router';
+import axios from 'axios';
+
+const ratingData = reactive([])
 
 function logout() {
-    router.push('/login');
+    axios.get('http://localhost:3000/api/user/logout')
+    .then(function (response) {
+        router.push('/login');
+    })
+    .catch(function (error) {
+        error.response.data.errors.map(err => {
+            alert(err.comment)
+        })
+    });
 }
 </script>
 
@@ -39,8 +51,6 @@ function logout() {
 }
 
 .sidebar {
-    position: sticky;
-    top:0;
     height: 100vh;
     flex: 1 1 200px;
     display: flex;
@@ -89,6 +99,7 @@ function logout() {
 }
 
 .content {
+    overflow-y: hidden;
     flex: 4 1 500px;
     display: flex;
     flex-direction: column;
