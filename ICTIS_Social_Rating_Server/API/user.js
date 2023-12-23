@@ -157,7 +157,168 @@ userAPI.get('/logout', (req, res) => {
 })
 
 userAPI.post('/joinevent', (req, res) => {
-    res.send()
+    const errors = []
+
+    if (!Boolean(req.body.eventUuid)) {
+        errors.push({
+            type: 'event',
+            comment: 'Неизвестное событие'
+        })
+    }
+
+    if (errors.length > 0) {
+        res.status(422).json({
+            errors: errors
+        })
+        return
+    }
+
+    db.UsersEvents.findOne({
+        where: {
+            [db.Op.and]: {
+                UserUuid: req.signedCookies.token,
+                EventUuid: req.body.eventUuid
+            }
+        }
+    })
+    .then(userEvent => {
+        if (userEvent == null) {
+            db.UsersEvents.create()
+            .then(userEvent => {
+                userEvent.setUser(req.signedCookies.token)
+                .then(userEvent => {
+                    userEvent.setEvent(req.body.eventUuid)
+                    .then(userEvent => {
+                        res.send()
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        errors.push({
+                            type: 'login',
+                            comment: 'Ошибка базы данных: мы не смогли Вас подписать на событие'
+                        })
+                        res.status(400).json({
+                            errors: errors
+                        })
+                    })
+                })
+                .catch(error => {
+                    console.log(error);
+                    errors.push({
+                        type: 'login',
+                        comment: 'Ошибка базы данных: мы не смогли Вас подписать на событие'
+                    })
+                    res.status(400).json({
+                        errors: errors
+                    })
+                })
+            })
+            .catch(error => {
+                console.log(error);
+                errors.push({
+                    type: 'login',
+                    comment: 'Ошибка базы данных: мы не смогли Вас подписать на событие'
+                })
+                res.status(400).json({
+                    errors: errors
+                })
+            })
+        }
+        else {
+            errors.push({
+                type: 'login',
+                comment: 'Вы уже подписались на событие'
+            })
+            res.status(400).json({
+                errors: errors
+            })
+        }
+    })
+    .catch(error => {
+        console.log(error);
+        errors.push({
+            type: 'login',
+            comment: 'Ошибка базы данных: мы не смогли Вас подписать на событие'
+        })
+        res.status(400).json({
+            errors: errors
+        })
+    })
+})
+
+userAPI.get('/allevents', (req, res) => {
+    const errors = []
+    
+    db.Users.findOne({
+        where: {
+            uuid: req.signedCookies.token
+        }
+    })
+    .then(user => {
+        user.getUserEvents({
+            include: db.Events
+        })
+        .then(userEvents => {
+            res.json(userEvents)
+        })
+        .catch(error => {
+            console.log(error);
+            errors.push({
+                type: 'login',
+                comment: 'Ошибка базы данных: мы не смогли получить события, на которые вы подписаны'
+            })
+            res.status(400).json({
+                errors: errors
+            })
+        })
+    })
+    .catch(error => {
+        console.log(error);
+        errors.push({
+            type: 'login',
+            comment: 'Ошибка базы данных: мы не смогли получить события, на которые вы подписаны'
+        })
+        res.status(400).json({
+            errors: errors
+        })
+    })
+})
+
+userAPI.get('/check', (req, res) => {
+    db.Users.findOne({
+        where: {
+            uuid: req.signedCookies.token
+        }
+    })
+    .then(user => {
+        user.getOrganizer()
+        .then(organizer => {
+            res.json({
+                isAdmin: user.isAdmin,
+                isOrganizer: Boolean(organizer)
+            })
+        })
+        .catch(error => {
+            console.log(error);
+            errors.push({
+                type: 'login',
+                comment: 'Ошибка базы данных'
+            })
+            res.status(400).json({
+                errors: errors
+            })
+        })
+    })
+    .catch(error => {
+        console.log(error);
+        errors.push({
+            type: 'login',
+            comment: 'Ошибка базы данных'
+        })
+        res.status(400).json({
+            errors: errors
+        })
+    })
 })
 
 module.exports = userAPI

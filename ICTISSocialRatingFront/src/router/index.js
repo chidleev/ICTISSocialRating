@@ -34,6 +34,24 @@ const router = createRouter({
             requredLogin: true
           },
           component: () => import('../views/MyEventsView.vue'),
+        },
+        {
+          path: 'organizer',
+          name: 'organizer',
+          meta: {
+            requredLogin: true,
+            mustBeOrganizer: true
+          },
+          component: () => import('../views/OrganizerView.vue'),
+        },
+        {
+          path: 'admin',
+          name: 'admin',
+          meta: {
+            requredLogin: true,
+            mustBeAdmin: true
+          },
+          component: () => import('../views/AdminView.vue'),
         }
       ]
     },

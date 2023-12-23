@@ -16,7 +16,7 @@ onMounted(() => {
         imgUrl: null
     })
 
-    /*axios.get('http://localhost:3000/api/rating/all')
+    /*axios.get('/api/rating/all')
     .then(function (response) {
         response.data.map(rating => {
             ratings.push(rating)

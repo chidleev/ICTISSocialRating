@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, reactive } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { RouterView, RouterLink } from 'vue-router'
 import router from '@/router';
 import axios from 'axios';
@@ -7,7 +7,7 @@ import axios from 'axios';
 const ratingData = reactive([])
 
 function logout() {
-    axios.get('http://localhost:3000/api/user/logout')
+    axios.get('/api/user/logout')
     .then(function (response) {
         router.push('/login');
     })
@@ -17,6 +17,21 @@ function logout() {
         })
     });
 }
+
+const isAdmin = ref(false)
+const isOrganizer = ref(false)
+
+axios.get('/api/user/check')
+    .then(function (response) {
+        console.log(response);
+        isAdmin = response.data.isAdmin
+        isOrganizer = response.data.isOrganizer
+    })
+    .catch(function (error) {
+        error.response.data.errors.map(err => {
+            alert(err.comment)
+        })
+    });
 </script>
 
 <template>
@@ -28,6 +43,8 @@ function logout() {
                 <RouterLink to="/account">Мой рейтинг</RouterLink>
                 <RouterLink to="/account/myevents">Мои события</RouterLink>
                 <RouterLink to="/event">Все события</RouterLink>
+                <RouterLink v-if="isOrganizer" to="/account/organizer">Панель организатора</RouterLink>
+                <RouterLink v-if="isAdmin" to="/account/admin">Панель администратора</RouterLink>
             </div>
             
             <button @click="logout">Выйти</button>
@@ -51,6 +68,7 @@ function logout() {
 }
 
 .sidebar {
+    padding: max(1vw, 1vh);
     height: 100vh;
     flex: 1 1 200px;
     display: flex;
@@ -62,8 +80,10 @@ function logout() {
     border-radius: 0 max(1vw, 1vh) max(1vw, 1vh) 0;
 }
 
+
+
 .account-data {
-    padding: max(1vw, 1vh);
+    
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -77,7 +97,7 @@ function logout() {
 }
 
 .account-data a, .sidebar button {
-    width: 20vw;
+    width: 100%;
     height: 5vh;
     
     display: flex;

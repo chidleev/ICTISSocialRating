@@ -14,7 +14,7 @@ const userData = reactive({
 });
 
 function login() {
-    axios.post('http://localhost:3000/api/user/login', {
+    axios.post('/api/user/login', {
         'login': userData.login,
         'password': userData.password
     })
@@ -31,7 +31,7 @@ function login() {
 function checkLogin(e) {
     
     userData.register_login = e.target.value;
-    axios.post('http://localhost:3000/api/user/checkLogin', {
+    axios.post('/api/user/checkLogin', {
         'login': userData.register_login
     })
     .then(function (response) {
@@ -49,7 +49,7 @@ function checkLogin(e) {
 
 function register() {
     if (!userData.bad_login) {
-        axios.post('http://localhost:3000/api/user/register', {
+        axios.post('/api/user/register', {
             'FIO': userData.FIO,
             'login': userData.register_login,
             'password': userData.register_password

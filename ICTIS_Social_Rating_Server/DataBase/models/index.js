@@ -44,7 +44,7 @@ db.Organizers.hasMany(db.Events, {
 db.Organizers.belongsTo(db.Users)
 
 db.Users.belongsTo(db.Organizers)
-db.Users.hasMany(db.Events, {
+db.Users.hasMany(db.UsersEvents, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
 })

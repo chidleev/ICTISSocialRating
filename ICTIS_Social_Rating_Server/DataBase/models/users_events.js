@@ -8,6 +8,7 @@ module.exports = (client, Sequelize, DataTypes) => {
         },
         isPriced: {
             type: DataTypes.BOOLEAN,
+            default: false
         },  
     }, {});
     return UserEvents;

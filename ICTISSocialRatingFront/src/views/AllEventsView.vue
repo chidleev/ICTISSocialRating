@@ -4,7 +4,7 @@ import { reactive, onMounted } from 'vue';
 import axios from 'axios';
 
 function toBecomeOrganizer() {
-    axios.get('http://localhost:3000/api/organizer/become')
+    axios.get('/api/organizer/become')
     .then(result => {
         alert(result.data)
     })
@@ -16,7 +16,7 @@ function toBecomeOrganizer() {
 }
 
 const ratingEvent = reactive([])
-axios.get('http://localhost:3000/api/eventapi/all')
+axios.get('/api/eventapi/all')
 .then(result => {
     result.data.map(ev => {
         ratingEvent.push(ev)

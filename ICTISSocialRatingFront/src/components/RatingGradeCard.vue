@@ -11,7 +11,7 @@ const props = defineProps({
 <template>
   <div class="card">
     <div class="desc">
-      <h2>Сфера деятельности: {{ rating.name }}</h2>
+      <h2>{{ rating.name }}</h2>
       <div class="text">{{ rating.description }}</div>
       <h2 class="bar">Баллы: {{ rating.value || 0}}</h2>
     </div>

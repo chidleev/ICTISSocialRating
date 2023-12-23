@@ -15,24 +15,26 @@ const props = defineProps({
 
 
 function joinEvent(e) {
-    axios.post('http://localhost:3000/api/user/joinevent', {
-        eventUuid: e.target.getAttribute('event_uuid')
-    })
-    .then(result => {
-        alert('Вы подписались на событие!')
-    })
-    .catch(error => {
-        error.response.data.errors.map(err => {
-            alert(err.comment)
+    if (!props.already_join) {
+        axios.post('/api/user/joinevent', {
+            eventUuid: e.target.getAttribute('event_uuid')
         })
-    })
+        .then(result => {
+            alert('Вы подписались на событие!')
+        })
+        .catch(error => {
+            error.response.data.errors.map(err => {
+                alert(err.comment)
+            })
+        })
+    }
 }
 </script>
 
 <template>
   <div class="card">
     <div class="desc">
-      <h2>Мероприятие: {{ ratingEvent.name }}</h2>
+      <h2>{{ ratingEvent.name }}</h2>
       <div class="text">{{ ratingEvent.description }}</div>
       <h3 class="bar">Дата проведения: {{ new Date(ratingEvent.startDate).toLocaleString()}}</h3>
       <h3 class="bar">Место проведения: {{ ratingEvent.location}}</h3>
@@ -49,12 +51,11 @@ function joinEvent(e) {
 <style scoped>
 .card {
   padding: max(1vw, 1vh);
-  flex: 1 1 500px;
+  flex: 1 1 450px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-height: 25vh;
-  min-height: max-content;
+  height: max-content;
   background-color: burlywood;
   border-radius: max(1vw, 1vh);
 }

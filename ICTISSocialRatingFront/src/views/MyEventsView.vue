@@ -6,37 +6,17 @@ import axios from 'axios';
 const ratingEvent = reactive([])
 
 onMounted(() => {
-    ratingEvent.push({
-        id: 1,
-        name: 'sdgss',
-        description: 'sdgsgsgdsgsdgsgsdgsgsdgsdgsgs',
-        startDate: new Date().toLocaleDateString(),
-        location: 'Корпус А - 1 этаж',
-        ratingValue: 10,
-        imgUrl: null
-    })
-
-    ratingEvent.push({
-        id: 1,
-        name: 'sdgss',
-        description: 'sdgsgsgdsgsdgsgsdgsgsdgsdgsgs',
-        startDate: new Date().toLocaleDateString(),
-        location: 'Корпус А - 1 этаж',
-        ratingValue: 10,
-        imgUrl: null
-    })
-
-    /*axios.get('http://localhost:3000/api/rating/all')
+    axios.get('/api/user/allevents')
     .then(function (response) {
-        response.data.map(rating => {
-            ratings.push(rating)
+        response.data.map(ev => {
+            ratingEvent.push(ev.Event)
         })
     })
     .catch(function (error) {
         error.response.data.errors.map(err => {
             alert(err.comment)
         })
-    });*/
+    });
 })
 
 </script>
