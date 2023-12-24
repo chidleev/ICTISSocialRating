@@ -6,13 +6,29 @@ const organizerAPI = express()
 organizerAPI.get('/become', (req, res) => {
     const errors = []
 
-    db.Organizers.create({
-        description: 'Неподтвержденный организатор'
+    db.Users.findOne({
+        where: {
+            uuid: req.signedCookies.token
+        }
     })
-    .then(organizer => {
-        organizer.setUser(req.signedCookies.token)
+    .then(user => {
+        db.Organizers.create({
+            description: user.FIO
+        })
         .then(organizer => {
-            res.status(200).send("Ваш запрос принят, ожидайте подтверждения")
+            organizer.setUser(user.uuid)
+            .then(organizer => {
+                res.status(200).send("Ваш запрос принят, ожидайте подтверждения")
+            })
+            .catch(error => {
+                errors.push({
+                    type: 'become',
+                    comment: 'Не удалось сделать запрос на назначение организатором'
+                })
+                res.status(422).json({
+                    errors: errors
+                })
+            })
         })
         .catch(error => {
             errors.push({
@@ -121,8 +137,6 @@ organizerAPI.post('/createEv', (req, res) => {
         return
     }
 
-    console.log(req.body.evCat)
-
     db.Events.create({
         name: req.body.name,
         description: req.body.description,
@@ -178,6 +192,68 @@ organizerAPI.post('/createEv', (req, res) => {
         errors.push({
             type: 'event',
             comment: 'Не удалось создать событие'
+        })
+        res.status(422).json({
+            errors: errors
+        })
+    })
+})
+
+organizerAPI.get('/getunverify', (req, res) => {
+    const errors = []
+
+    db.Organizers.findAll({
+        where: {
+            isVerify: false
+        },
+        include: [{
+            model: db.Users,
+            exclude: ["password"]
+        }]
+    })
+    .then(orgs => {
+        res.json(orgs)
+    })
+    .catch(error => {
+        errors.push({
+            type: 'event',
+            comment: 'Не удалось получить неподтвержденных организаторов'
+        })
+        res.status(422).json({
+            errors: errors
+        })
+    })
+})
+
+organizerAPI.put('/verifyOrg', (req, res) => {
+    const errors = []
+
+    if (!Boolean(req.body.orgUuid)) {
+        errors.push({
+            type: 'uuid',
+            comment: 'Не указано ID подтверждаемого организатора'
+        })
+    }
+
+    if (errors.length > 0) {
+        res.status(422).json({
+            errors: errors
+        })
+        return
+    }
+
+    db.Organizers.update({
+        isVerify: true
+    }, {
+        where: { uuid: req.body.orgUuid }
+    })
+    .then(orgs => {
+        res.send()
+    })
+    .catch(error => {
+        errors.push({
+            type: 'event',
+            comment: 'Не удалось подтвердить организатора'
         })
         res.status(422).json({
             errors: errors

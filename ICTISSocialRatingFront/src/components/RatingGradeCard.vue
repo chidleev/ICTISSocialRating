@@ -1,6 +1,7 @@
 <script setup>
 const props = defineProps({
   rating: {
+    uuid: String,
     name: String,
     value: Number,
     desc: String
@@ -10,7 +11,7 @@ const props = defineProps({
 
 <template>
   <div class="card">
-    <img src="@/assets/1.jpg" alt="">
+    <img :src="'/img/' + rating.uuid + '.png'" alt="">
     <div class="desc">
       <h2>{{ rating.name }}</h2>
       <div class="text">{{ rating.description }}</div>
@@ -35,6 +36,7 @@ const props = defineProps({
 }
 
 img {
+  max-width: 150px;
   max-height: 150px;
   border-radius: max(1vw, 1vh);
 }

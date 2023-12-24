@@ -1,8 +1,8 @@
 module.exports = {
-    HOST: "ep-billowing-tree-04832905.eu-central-1.postgres.vercel-storage.com",
+    HOST: "ep-white-union-00622151.eu-central-1.postgres.vercel-storage.com",
     PORT: "5432",
     USER: "default",
-    PASSWORD: "y3lIO7HZYKqx",
+    PASSWORD: "DIw7YHL3vfuB",
     DB: "verceldb",
     DIALECT: "postgres",
     dialectOptions: {

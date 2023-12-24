@@ -227,7 +227,7 @@ userAPI.post('/joinevent', (req, res) => {
         else {
             errors.push({
                 type: 'login',
-                comment: 'Вы уже подписались на событие'
+                comment: 'Вы уже подписаны'
             })
             res.status(400).json({
                 errors: errors

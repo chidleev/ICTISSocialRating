@@ -32,31 +32,34 @@ function joinEvent(e) {
 </script>
 
 <template>
-  <div class="card">
-    <img src="@/assets/1.jpg" alt="">
+<div class="card">
+    <img :src="'/img/' + ratingEvent.RatingUuid + '.png'" alt="">
     <div class="desc">
-      <h2>{{ ratingEvent.name }}</h2>
-      <div class="text">{{ ratingEvent.description }}</div>
-      <h3 class="bar">Дата проведения: {{ new Date(ratingEvent.startDate).toLocaleString()}}</h3>
-      <h3 class="bar">Место проведения: {{ ratingEvent.location}}</h3>
-      <h2 class="bar">
-        Баллы: {{ ratingEvent.ratingValue || 0}}
-        <button v-bind:joined=already_join @click=joinEvent v-bind:event_uuid=ratingEvent.uuid>{{already_join? 'Участвую' : 'Участвововать'}}</button>
-      </h2>
+        <h2>{{ ratingEvent.name }}</h2>
+        <div class="text">{{ ratingEvent.description }}</div>
+        <h3 class="bar">Дата проведения: {{ new Date(ratingEvent.startDate).toLocaleString()}}</h3>
+        <h3 class="bar">Место проведения: {{ ratingEvent.location}}</h3>
+        <h2 class="bar">
+            Баллы: {{ ratingEvent.ratingValue || 0}}
+            <button v-bind:joined=already_join @click=joinEvent v-bind:event_uuid=ratingEvent.uuid>{{already_join? 'Участвую' : 'Участвововать'}}</button>
+        </h2>
     </div>
-  </div>
-  
+</div>
 </template>
 
 <style scoped>
 .card {
   padding: max(1vw, 1vh);
+
   flex: 1 1 450px;
+
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
-  height: max-content;
+
+  height: 50vh;
+
   background-color: cadetblue;
   border-radius: max(1vw, 1vh);
 }

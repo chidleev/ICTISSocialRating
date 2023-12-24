@@ -22,13 +22,14 @@ app.use((req, res, next) => {
     }
     next()
 })
+app.use('/img', express.static(path.join(__dirname, 'img')))
 app.use(express.static(path.join(__dirname, '..', 'ICTISSocialRatingFront', 'dist')))
 
 app.all('*', (req, res) => {
     res.status(404).send('F Off')
 })
 
-DB.client.sync({alter: true}).then(() => {
+DB.client.sync(/*{force: true}*/).then(() => {
     console.log('---> Sync Database')
  
     /*DB.Users.create({

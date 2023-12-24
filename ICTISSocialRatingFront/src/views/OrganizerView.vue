@@ -39,6 +39,7 @@ function createEv(e) {
     })
     .then(result => {
         alert("Событие успешно создано")
+        getEvs()
     })
     .catch(function (error) {
         error.response.data.errors.map(err => {
@@ -48,17 +49,21 @@ function createEv(e) {
 }
 
 const ratingEvent = reactive([])
-axios.get('/api/organizer/getevents')
-.then(result => {
-    result.data.map(ev => {
-        ratingEvent.push(ev)
+function getEvs() {
+    axios.get('/api/organizer/getevents')
+    .then(result => {
+        ratingEvent.splice(0,ratingEvent.length)
+        result.data.map(ev => {
+            ratingEvent.push(ev)
+        })
     })
-})
-.catch(function (error) {
-    error.response.data.errors.map(err => {
-        alert(err.comment)
-    })
-});
+    .catch(function (error) {
+        error.response.data.errors.map(err => {
+            alert(err.comment)
+        })
+    });
+}
+getEvs()
 </script>
 
 <template>

@@ -1,4 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import LoginView from '../views/LoginView.vue'
+import AccountView from '../views/AccountView.vue'
+import MyRatingView from '../views/MyRatingView.vue'
+import MyEventsView from '../views/MyEventsView.vue'
+import OrganizerView from '../views/OrganizerView.vue'
+import AdminView from '../views/AdminView.vue'
+import AllEventsView from '../views/AllEventsView.vue'
+import EventView from '../views/EventView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -10,11 +18,11 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: () => import('../views/LoginView.vue')
+      component: LoginView,
     },
     {
       path: '/account',
-      component: () => import('../views/AccountView.vue'),
+      component: AccountView,
       meta: {
         requredLogin: true
       },
@@ -25,7 +33,7 @@ const router = createRouter({
           meta: {
             requredLogin: true
           },
-          component: () => import('../views/MyRatingView.vue'),
+          component: MyRatingView,
         },
         {
           path: 'myevents',
@@ -33,7 +41,7 @@ const router = createRouter({
           meta: {
             requredLogin: true
           },
-          component: () => import('../views/MyEventsView.vue'),
+          component: MyEventsView,
         },
         {
           path: 'organizer',
@@ -42,7 +50,7 @@ const router = createRouter({
             requredLogin: true,
             mustBeOrganizer: true
           },
-          component: () => import('../views/OrganizerView.vue'),
+          component: OrganizerView,
         },
         {
           path: 'admin',
@@ -51,7 +59,7 @@ const router = createRouter({
             requredLogin: true,
             mustBeAdmin: true
           },
-          component: () => import('../views/AdminView.vue'),
+          component: AdminView,
         }
       ]
     },
@@ -62,13 +70,13 @@ const router = createRouter({
         {
           path: '',
           name: 'allevents',
-          component: () => import('../views/AllEventsView.vue'),
+          component: AllEventsView,
         },
         {
           path: ':id',
           name: 'event',
           props: true,
-          component: () => import('../views/EventView.vue'),
+          component: EventView,
         }
       ]
     }
