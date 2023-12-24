@@ -13,7 +13,6 @@ const props = defineProps({
   already_join: false
 })
 
-
 function joinEvent(e) {
     if (!props.already_join) {
         axios.post('/api/user/joinevent', {
