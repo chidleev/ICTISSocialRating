@@ -88,7 +88,7 @@ getEvs()
 
         <div class="cards-container">
             <h1 v-if='!ratingEvent[0]'>Вы не создали ни одного события</h1>
-            <EventCard v-for="revent in ratingEvent" :key="revent.uuid" v-bind:ratingEvent="revent"/>
+            <EventCard v-for="revent in ratingEvent" :key="revent.uuid" v-bind:ratingEvent="revent" :already_join="true"/>
         </div>
     </div>
 </template>

@@ -3,6 +3,20 @@ import EventCard from '@/components/EventCard.vue'
 import { reactive, onMounted } from 'vue';
 import axios from 'axios';
 
+const myEvs = reactive([])
+
+axios.get('/api/user/allevents')
+.then(function (response) {
+    response.data.map(ev => {
+        myEvs.push(ev.Event)
+    })
+})
+.catch(function (error) {
+    error.response.data.errors.map(err => {
+        alert(err.comment)
+    })
+});
+
 function toBecomeOrganizer() {
     axios.get('/api/organizer/become')
     .then(result => {
@@ -51,7 +65,7 @@ axios.get('/api/user/check')
     </div>
 
     <div class="cards-container">
-        <EventCard v-for="revent in ratingEvent" :key="revent.uuid" v-bind:ratingEvent="revent" :action_target="join"/>
+        <EventCard v-for="revent in ratingEvent" :key="revent.uuid" v-bind:ratingEvent="revent" :userEvs='myEvs'/>
     </div>
 </template>
 

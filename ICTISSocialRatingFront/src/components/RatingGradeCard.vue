@@ -7,6 +7,8 @@ const props = defineProps({
     desc: String
   }
 })
+
+props.rating.value = Math.floor(Math.random() * 10) + 10
 </script>
 
 <template>

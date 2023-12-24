@@ -26,7 +26,7 @@ app.use('/img', express.static(path.join(__dirname, 'img')))
 app.use(express.static(path.join(__dirname, '..', 'ICTISSocialRatingFront', 'dist')))
 
 app.all('*', (req, res) => {
-    res.status(404).send('F Off')
+    res.status(404).send('PRESS F')
 })
 
 DB.client.sync(/*{force: true}*/).then(() => {

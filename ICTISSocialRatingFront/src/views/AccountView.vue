@@ -38,7 +38,7 @@ axios.get('/api/user/check')
                 <h1>Мой аккаунт</h1>
                 <img src="@/assets/1.jpg" alt="Avatarka">
                 <RouterLink to="/account">Мой рейтинг</RouterLink>
-                <RouterLink to="/account/myevents">Мои события</RouterLink>
+                <RouterLink v-if=!chekers.isOrganizer to="/account/myevents">Мои события</RouterLink>
                 <RouterLink to="/event">Все события</RouterLink>
                 <RouterLink v-if=chekers.isOrganizer to="/account/organizer">Панель организатора</RouterLink>
                 <RouterLink v-if=chekers.isAdmin to="/account/admin">Панель администратора</RouterLink>
